@@ -27,7 +27,7 @@ def Binomial_Coefficient(n, r, memo):
 
 
 if __name__ == "__main__":
-    n, r = 50, 30
+    n, r = 50, 15
     memo = {}
     print(f"\n {n} C {r}  :=  ", Binomial_Coefficient(n, r, memo))
     print(f"Computed {len(memo)} values") 
