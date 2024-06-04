@@ -11,12 +11,13 @@
 def Binomial_Coefficient(n, r, memo):
     if (n < r) or (n < 0 or r < 0):
         return 0
-    elif r == n:
+    
+    if r == n or  r == 0:
         return 1
-    elif r == 0 : 
-        return 1
-    elif r == 1 or r == n - 1:
+    
+    if r == 1 or r == n - 1:
         return n
+    
     if (n, r) in memo:
         return memo[(n, r)]
 
