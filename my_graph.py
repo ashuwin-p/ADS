@@ -1,7 +1,18 @@
+"""
+    Graph Implementation
+
+    Author: Ashuwin P <ashuwin2210335@ssn.edu.in>
+
+    For UIT2402 Advanced Data Structures and Algorithms Course
+
+    Updated on : 26 - 05- 2024
+"""
+
 class Graph:
     def __init__(self):
         self._graph = {}
         self._vertices = []
+        self._edges = []
 
     def add_vertex(self, vertex):
         self._vertices.append(vertex)
@@ -12,10 +23,13 @@ class Graph:
             self.add_vertex(src)
         if dest not in self._vertices:
             self.add_vertex(dest)
+
         self._graph[src][dest] = cost
+        edge = (src, dest, cost)
+        self._edges.append(edge)
 
         # for undirected graph activate the below line
-        # self._graph[dest][src] = cost
+        self._graph[dest][src] = cost
 
     def get_cost(self, src, dest):
         try:
@@ -25,14 +39,20 @@ class Graph:
             return False
         
     def get_edges(self):
-        edges = []
-        for src in self._graph:
-            for dest in self._graph[src]:
-                edges.append((src, dest, self._graph[src][dest]))
-        return edges
+        return self._edges
 
     def adjacent(self, vertex):
-        return (self._graph[vertex]).keys()
+        return list(self._graph[vertex].keys())
+    
+    def cost(self, src, dest):
+        return self._graph[src][dest]
+
+    def pathCost(self, path):
+        pathcost = 0
+        n = len(path)
+        for i in range(n - 1):
+            pathcost += self.cost(path[i], path[i + 1])
+        return pathcost
     
     def __str__(self):
         return str(self._graph)

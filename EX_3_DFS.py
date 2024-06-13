@@ -1,3 +1,13 @@
+"""
+    Graph DFS Implementation
+
+    Author: Ashuwin P <ashuwin2210335@ssn.edu.in>
+
+    For UIT2402 Advanced Data Structures and Algorithms Course
+
+    Updated on : 26 - 05- 2024
+"""
+
 from my_graph import Graph
 from copy import deepcopy
 

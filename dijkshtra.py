@@ -5,7 +5,7 @@
 
     Author: Ashuwin P <ashuwin2210335@ssn.edu.in>
 
-    For UIT2401 Advanced Data Structures and Algorithms Course
+    For UIT2402 Advanced Data Structures and Algorithms Course
 
     Updated on : 26 - 05- 2024
 """
@@ -13,6 +13,7 @@
 
 from my_graph import Graph
 from tabulate import tabulate
+
 
 def Dijkstra(graph, src):
     visited = []
@@ -37,7 +38,7 @@ def Dijkstra(graph, src):
 
     while not all_visited():
         vertex = min_cost_vertex(solution)
-        
+
         visited.append(vertex)
         adjs = graph.adjacent(vertex)
         for adj in adjs:
@@ -51,12 +52,16 @@ def Dijkstra(graph, src):
 
     return solution
 
+
 def tabulate_solution(solution):
     table = []
     for vertex, data in solution.items():
         table.append([vertex, data[0], data[1]])
-    result = tabulate(table, headers=["Vertex", "Shortest Distance", "Parent"], tablefmt="grid")
+    result = tabulate(
+        table, headers=["Vertex", "Shortest Distance", "Parent"], tablefmt="grid"
+    )
     print(result)
+
 
 if __name__ == "__main__":
     G = Graph()

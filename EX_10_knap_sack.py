@@ -3,7 +3,7 @@
 
     Author: Ashuwin P <ashuwin2210335@ssn.edu.in>
 
-    For UIT2401 Advanced Data Structures and Algorithms Course
+    For UIT2402 Advanced Data Structures and Algorithms Course
 
     Updated on : 26 - 05- 2024
 """
