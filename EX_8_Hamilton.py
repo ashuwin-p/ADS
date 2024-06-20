@@ -1,3 +1,13 @@
+"""
+    Hamilton Circuits using DFS & Backtracking
+
+    Author: Ashuwin P <ashuwin2210335@ssn.edu.in>
+
+    For UIT2402 Advanced Data Structures and Algorithms Course
+
+    Updated on : 20 - 06- 2024
+"""
+
 from my_graph import Graph
 from copy import deepcopy
 
@@ -14,9 +24,9 @@ def get_Hamilton_Circuits(graph, start):
                 all_paths.append(circuit)
         
         # Explore adjacent vertices
-        for neighbor in graph.adjacent(current_vertex):
-            if neighbor not in visited:
-                dfs(graph, neighbor, visited, current_path, all_paths)
+        for neighbour in graph.adjacent(current_vertex):
+            if neighbour not in visited:
+                dfs(graph, neighbour, visited, current_path, all_paths)
         
         # Backtrack: remove the current vertex from path and visited list
         visited.remove(current_vertex)

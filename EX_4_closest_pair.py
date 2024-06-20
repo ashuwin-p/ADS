@@ -1,3 +1,13 @@
+"""
+    Closest Pair of Points (Divide and Conquer approach)
+
+    Author: Ashuwin P <ashuwin2210335@ssn.edu.in>
+
+    For UIT2402 Advanced Data Structures and Algorithms Course
+
+    Updated on : 26 - 05- 2024
+"""
+
 import math
 import random
 
@@ -101,45 +111,3 @@ if __name__ == '__main__':
     dist, p, q = closest_pair(Px, Py)
     print("Pair of Points : ", p, q)
     print("Distance       : ", dist)
-
-
-"""
-Algorithm Steps:
-
-    Base Case:
-        If the number of points is less than 4, execute a brute-force approach to find the closest pair among the given points.
-
-    Divide Phase:
-        Split the list of points Px into two halves, L and R, based on their x-coordinates.
-        Sort both halves L and R by both x and y-coordinates separately to obtain Lx, Ly, Rx, and Ry.
-
-    Conquer Phase:
-        Recursively find the closest pair of points in both L and R, denoted as left_min and right_min, respectively.
-
-    Combine Phase:
-        Determine the minimum distance d between the closest pairs found in the left and right halves.
-        Find the closest split pair, i.e., a pair of points where one point lies on the left side and the other lies on the right side of the dividing line. This is done by calling the closest_split_pair function.
-
-    Return Phase:
-        Compare the distances obtained from the left, right, and split pairs, and return the minimum among them along with the corresponding pair of points.
-"""
-
-
-"""
-Time Complexity Analysis :
-
-    Base Case:
-        If the number of points is less than 4, a brute-force approach with O(n^2) time complexity is used.
-
-    Divide Phase:
-        Splitting and sorting both halves of the points take O(nlog⁡n) time.
-
-    Conquer Phase:
-        Recursively solving for left and right halves takes O(nlog⁡n) time.
-
-    Combine Phase:
-        Finding the closest split pair takes O(n) time.
-
-    Overall Time Complexity:
-        O(n^2) + O(nlogn) + O(nlogn) + O(n) = O(nlogn)
-"""
