@@ -1,74 +1,76 @@
-class Graph:
+from collections import deque  # Import deque from collections for efficient queue operations
+
+class MaxFlow:
     def __init__(self, graph):
-        self.graph = graph  # Initialize the graph with the given adjacency matrix
-        self.ROW = len(graph)  # Number of rows in the adjacency matrix
+        # Initialize the MaxFlow object with the original graph and create a residual graph.
+        self.graph = graph  # Original graph
+        self.residual_graph = [list(row) for row in graph]  # Create a residual graph (deep copy of original graph)
+        self.size = len(graph)  # Number of vertices in the graph
 
-    def BFS(self, s, t, parent):
-        """
-        Run Breadth-First Search (BFS) algorithm to find a path from source to sink
-        in the residual graph.
-        """
-        visited = [False] * (self.ROW)  # Initialize all vertices as not visited
-        queue = []  # Initialize a queue for BFS
-
-        queue.append(s)  # Enqueue the source vertex
-        visited[s] = True  # Mark the source vertex as visited
+    def bfs(self, source, sink, parent):
+        # Perform a BFS to find if there is a path from source to sink in the residual graph.
+        visited = [False] * self.size  # Track visited vertices
+        queue = deque([source])  # Initialize queue with the source vertex
+        visited[source] = True  # Mark source as visited
 
         while queue:
-            u = queue.pop(0)  # Dequeue a vertex from the queue
+            u = queue.popleft()  # Dequeue a vertex from the queue
 
-            for ind, val in enumerate(self.graph[u]):
-                # Check if the vertex is not visited and there is a residual capacity
-                if visited[ind] == False and val > 0:
-                    queue.append(ind)  # Enqueue the vertex
-                    visited[ind] = True  # Mark the vertex as visited
-                    parent[ind] = u  # Set the parent of the vertex
-                    if ind == t:  # If we reach the sink, return True
+            for v, capacity in enumerate(self.residual_graph[u]):  # Iterate over adjacent vertices
+                # If not yet visited and there is available capacity in the residual graph.
+                if not visited[v] and capacity > 0:
+                    queue.append(v)  # Enqueue the vertex
+                    visited[v] = True  # Mark vertex as visited
+                    parent[v] = u  # Record the path
+
+                    # If we reached the sink, return True indicating a path is found.
+                    if v == sink:
                         return True
 
-        return False  # If no path found from source to sink, return False
+        # No path found from source to sink.
+        return False
 
-    def FordFulkerson(self, source, sink):
-        """
-        Implement the Ford-Fulkerson algorithm to find maximum flow in the given graph.
-        """
-        parent = [-1] * (self.ROW)  # Initialize parent array to track the augmenting path
+    def ford_fulkerson(self, source, sink):
+        parent = [-1] * self.size  # Array to store the path from source to sink.
+        max_flow = 0  # Initialize max flow to 0.
 
-        max_flow = 0  # Initialize the maximum flow to zero
-        while self.BFS(source, sink, parent):  # While there is a path from source to sink
+        # Augment the flow while there is a path from source to sink.
+        while self.bfs(source, sink, parent):
             path_flow = float("Inf")  # Initialize path flow to infinity
-            s = sink  # Set the sink as the current vertex
-            while s != source:  # Traverse the path from sink to source
-                path_flow = min(path_flow, self.graph[parent[s]][s])  # Update path flow
-                s = parent[s]  # Move to the parent vertex
+            s = sink
 
-            max_flow += path_flow  # Add path flow to maximum flow
+            # Find the maximum flow through the path found by BFS.
+            while s != source:
+                path_flow = min(path_flow, self.residual_graph[parent[s]][s])  # Find minimum capacity in the path
+                s = parent[s]
 
-            v = sink  # Set the sink as the current vertex
-            while v != source:  # Traverse the path from sink to source
-                u = parent[v]  # Get the parent of the current vertex
-                self.graph[u][v] -= path_flow  # Update residual capacities
-                self.graph[v][u] += path_flow  # Update residual capacities for reverse edge
-                v = parent[v]  # Move to the parent vertex
-        
-        # Printing the path from source to sink
-        for i in parent:
-            print(i, "->", end="")
-        print()
+            v = sink
 
-        return max_flow  # Return the maximum flow
+            # Update the residual capacities of the edges and reverse edges along the path.
+            while v != source:
+                u = parent[v]
+                self.residual_graph[u][v] -= path_flow  # Subtract path flow from forward edge
+                self.residual_graph[v][u] += path_flow  # Add path flow to reverse edge
+                v = parent[v]
 
-# Create a graph given in the above diagram
+            # Add the path flow to the overall flow.
+            max_flow += path_flow
+
+        return max_flow  # Return the overall flow.
+
+# Example usage:
 graph = [
-    [0, 16, 13, 0, 0, 0],
+    [0, 16, 13, 0, 0, 0],  # Adjacency matrix representation of the graph
     [0, 0, 10, 12, 0, 0],
     [0, 4, 0, 0, 14, 0],
     [0, 0, 9, 0, 0, 20],
     [0, 0, 0, 7, 0, 4],
-    [0, 0, 0, 0, 0, 0]
+    [0, 0, 0, 0, 0, 0],
 ]
+source = 0  # Source vertex
+sink = 5  # Sink vertex
 
-g = Graph(graph)
-source = 0
-sink = 5
-print("The maximum possible flow is %d" % g.FordFulkerson(source, sink))
+# Create MaxFlow object and compute the maximum flow from source to sink.
+max_flow_solver = MaxFlow(graph)  # Initialize MaxFlow with the given graph
+max_flow = max_flow_solver.ford_fulkerson(source, sink)  # Compute the maximum flow
+print(f"Maximum flow: {max_flow}")  # Output the maximum flow.

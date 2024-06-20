@@ -72,8 +72,6 @@ Welcome to the repository for the UIT2402 Advanced Data Structures and Algorithm
 
 - **`my_graph.py`**: Various graph-related algorithms and utilities, including implementations of common graph algorithms.
 
-- **`README.md`**: This file.
-
 - **`warshall_floyd.py`**: Implementation of the Warshall-Floyd algorithm (also known as the Floyd-Warshall algorithm), which finds shortest paths in a weighted graph with positive or negative edge weights (but with no negative cycles).
 
 ## 🚀 How to Run
