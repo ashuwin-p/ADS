@@ -29,7 +29,7 @@ class Graph:
         self._edges.append(edge)
 
         # for undirected graph activate the below line
-        self._graph[dest][src] = cost
+        #self._graph[dest][src] = cost
 
     def get_cost(self, src, dest):
         try:
